@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('mongodb');
+var assert = require('assert');
+
+var url = 'mongodb://localhost:27017/test';
 
 
 var apartments = {"apartments":[
@@ -10,7 +14,20 @@ var apartments = {"apartments":[
 };
 
 router.get('/', function(req, res, next) {
-    res.send(apartments);
+    var resultArray = [];
+    mongo.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var index = db.collection('apartments-data').find();
+        index.forEach(function (doc, err) {
+            assert.equal(null, err);
+            resultArray.push(doc);
+        }, function () {
+            db.close();
+            res.send(resultArray);
+        });
+    });
+
+    //res.send(apartments);
 });
 
 router.get('/api/v1/apartments/', function(req, res, next) {
@@ -35,7 +52,16 @@ router.post('/api/v1/apartments/', function(req, res, next) {
         address: req.body.address,
         size: req.body.size,
         parts: req.body.parts
-    }
+    };
+    mongo.connect(url,function (err, db) {
+        assert.equal(null, err);
+        db.collection('apartments-data').insertOne(apartment, function (err, result) {
+            assert.equal(null, err);
+            console.log('apartment inserted');
+            db.close();
+        });
+    });
+
     apartments.apartments.push(apartment);
     res.status(201).send(apartment);
 });
