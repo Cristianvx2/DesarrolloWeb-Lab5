@@ -64,8 +64,8 @@ router.post('/update', function (req, res, next) {
     var id = req.body.id;
 
     UserData.findById(id, function (err, doc) {
-        if (err){
-          console.error('error, no entry found');
+        if (err) {
+            console.error('error, no entry found');
         }
         doc.name = req.body.name;
         doc.price = req.body.price;
@@ -78,6 +78,7 @@ router.post('/update', function (req, res, next) {
                 res.status(200)
                 res.send('updated');
             })
+    })
 });
 
 router.post('/delete', function (req, res, next) {
