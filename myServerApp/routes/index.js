@@ -76,8 +76,8 @@ router.post('/update', function (req, res, next) {
             .then(function (result) {
                 console.log('updated: ' + result)
                 res.status(200)
+                res.send('updated');
             })
-    res.send('updated');
 });
 
 router.post('/delete', function (req, res, next) {
