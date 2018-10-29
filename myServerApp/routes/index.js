@@ -22,8 +22,13 @@ router.get('/', function(req, res, next) {
 router.get('/get-data', function (req, res, next) {
    UserData.find()
        .then(function (doc) {
-           res.render('index', {items: doc});
-       });
+           //res.render('index', {items: doc});
+           res.status(202);
+           res.send(doc);
+       })
+       .then(undefined, function (err) {
+           res.send('can\'t show data ')
+       })
 });
 
 router.post('/insert', function (req, res, next) {
@@ -36,8 +41,16 @@ router.post('/insert', function (req, res, next) {
     };
 
     var data = new UserData(item);
-    data.save();
-    res.redirect('/');
+    console.log("hello request: " + data);
+    data.save()
+        .then(function (result) {
+            console.log(result)
+            res.status(200);
+        });
+    res.status(500);
+    res.send('{NO inserted}')
+    //res.redirect('/');
+    //res.render(data);
 });
 
 router.post('/update', function (req, res, next) {
@@ -59,15 +72,24 @@ router.post('/update', function (req, res, next) {
         doc.address = req.body.address;
         doc.size = req.body.size;
         doc.parts = req.body.parts;
-        doc.save();
-    })
-    res.redirect('/');
+        doc.save()
+            .then(function (result) {
+                console.log('updated: ' + result)
+                res.status(200)
+            })
+    res.send('updated');
 });
 
 router.post('/delete', function (req, res, next) {
    var id = req.body.id;
-   UserData.findByIdAndRemove(id).exec();
-    res.redirect('/');
+   UserData.findOneAndDelete(id)
+       .then(function (result) {
+           console.log('Deleted: ' + result.name);
+           res.status(200);
+           res.send('Delete it..!')
+       });
+
+   console.log(res.body.id);
 });
 
 
