@@ -14,8 +14,17 @@ services:
       - '8080:3001'
     links:
       - mongo
+      - redis
+    environment:
+      - REDIS_URL=redis: //cache
   mongo:
     container_name: mongo
     image: mongo
     ports:
       - '27017:27017'
+  redis:
+    container_name: cache
+    image: redis
+    expose:
+      - 6379
+  
