@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
+mongoose.connect('mongodb://mongo:27017/test', {useNewUrlParser: true})
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
+
+mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
 var userDataSchema = new Schema({
@@ -25,6 +27,7 @@ router.get('/get-data', function (req, res, next) {
    UserData.find()
        .then(function (doc) {
            //res.render('index', {items: doc});
+           //console.log(doc);
            res.status(202);
            res.send(doc);
        })
@@ -43,14 +46,17 @@ router.post('/insert', function (req, res, next) {
     };
 
     var data = new UserData(item);
-    console.log("hello request: " + data);
+    //console.log("hello request: " + data);
     data.save()
         .then(function (result) {
             console.log(result)
             res.status(200);
-        });
-    res.status(500);
-    res.send('{NO inserted}')
+        })
+        .then(undefined, function (err) {
+            res.status(500);
+            res.send('{NO inserted}')
+        })
+    
     //res.redirect('/');
     //res.render(data);
 });
@@ -65,34 +71,23 @@ router.post('/update', function (req, res, next) {
     };
     var id = req.body.id;
 
-    UserData.findById(id, function (err, doc) {
-        if (err) {
-            console.error('error, no entry found');
-        }
-        doc.name = req.body.name;
-        doc.price = req.body.price;
-        doc.address = req.body.address;
-        doc.size = req.body.size;
-        doc.parts = req.body.parts;
-        doc.save()
-            .then(function (result) {
-                console.log('updated: ' + result)
-                res.status(200)
-                res.send('updated');
-            })
+    UserData.findOneAndUpdate({"_id": req.body.id}, {$set: apartment}, function(err, result){
+        console.log(result)
+        console.log(apartment)
+        if(err) return res.status(500).send(err)
+        return res.status(200).send(apartment);
     })
 });
 
 router.post('/delete', function (req, res, next) {
-   var id = req.body.id;
-   UserData.findOneAndDelete(id)
-       .then(function (result) {
-           console.log('Deleted: ' + result.name);
-           res.status(200);
-           res.send('Delete it..!')
-       });
-
-   console.log(res.body.id);
+   console.log("this is the server")
+   console.log(req.body);
+   UserData.findOneAndDelete({"_id": req.body._id}, (err, result)=>{
+       console.log(result);
+        if(err) return res.status(500).send(err);
+        return res.status(200).send("successfully deleted");
+   })
+   
 });
 
 

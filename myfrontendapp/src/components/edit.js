@@ -23,6 +23,7 @@ export class EditApartment extends React.Component{
         const prevSize = state.prevSize;
         const prevParts = state.prevParts;
         
+        const id = state.currentId;
         const name = prevName !== props.apartment.name ? props.apartment.name : state.name;
         const price = prevPrice !== props.apartment.price ? props.apartment.price : state.price;
         const address = prevAddress !== props.apartment.address ? props.apartment.address : state.address;
@@ -30,6 +31,7 @@ export class EditApartment extends React.Component{
         const parts = prevParts !== props.apartment.parts.join(",") ? props.apartment.parts.join(",") : state.parts;
 
         return{
+            prevId: props.apartment.currentId, id,
             prevName: props.apartment.name, name,
             prevPrice: props.apartment.price, price,
             prevAddress: props.apartment.address, address,
@@ -57,6 +59,7 @@ export class EditApartment extends React.Component{
         e.preventDefault();
         const onEdit = this.props.onEdit;
         const currentlyEditing = this.props.currentlyEditing;
+        const currentId = this.props.currentId;
         const regExp = /\s*,\s*/;
 
         var name = this.state.name;
@@ -65,7 +68,7 @@ export class EditApartment extends React.Component{
         var size = this.state.size;
         var parts = this.state.parts.split(regExp);
 
-        onEdit(name, price, address, size, parts, currentlyEditing);
+        onEdit(name, price, address, size, parts, currentlyEditing, currentId);
     }
     handleCancel(){
         const onEditModal = this.props.onEditModal;

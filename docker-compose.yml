@@ -10,21 +10,22 @@ services:
     container_name: server-app
     restart: always
     build: myServerApp/
+    command: npm run start
     ports:
-      - '8080:3001'
+      - '3001:3001'
     links:
       - mongo
-      - redis
-    environment:
-      - REDIS_URL=redis: //cache
+      #- redis
+    #environment:
+     # - REDIS_URL=redis: //cache
   mongo:
     container_name: mongo
     image: mongo
     ports:
       - '27017:27017'
-  redis:
-    container_name: cache
-    image: redis
-    expose:
-      - 6379
+  #redis:
+   # container_name: cache
+   # image: redis
+   # expose:
+   #   - 6379
   
