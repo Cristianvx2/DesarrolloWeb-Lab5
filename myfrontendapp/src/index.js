@@ -38,7 +38,7 @@ class Recipe extends React.Component{
             .then(res => res.json())
             .then(apartments => this.setState({apartments}));*/
 
-        axios.get('http://localhost:3001/get-data')
+        axios.get('http://104.40.16.240:3001/get-data')
             .then(res => {
                 //console.log(res);
                 //console.log(res.status);

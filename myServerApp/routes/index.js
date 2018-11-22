@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://mongo:27017/test', {useNewUrlParser: true})
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+mongoose.connect('mongodb://40.78.47.180:27017/test')
+    .then(() => console.log('MongoDB Connected to mongo'))
+    .catch(err => console.log(err))
 
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
@@ -28,10 +28,12 @@ router.get('/get-data', function (req, res, next) {
        .then(function (doc) {
            //res.render('index', {items: doc});
            //console.log(doc);
+           console.log('Entro primer then');
            res.status(202);
            res.send(doc);
        })
        .then(undefined, function (err) {
+        console.log('Error');
            res.send('can\'t show data ')
        })
 });
