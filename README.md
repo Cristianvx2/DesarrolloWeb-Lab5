@@ -7,10 +7,10 @@ Ambas aplicaciones incluyendo la base de datos se instalaron en contenedores de 
 
 
 # Front End
-La aplicación fue creada con React utilizando componentes de bootstrap, alert y Modal. Consiste en un CRUD basico donde se muestra información de apartamentos en venta, permite agregar, editar y eliminar información relacionada a los mismos. 
+La aplicación fue creada con React utilizando componentes de bootstrap, alert y Modal. Consiste en un CRUD basico donde se muestra información de apartamentos en venta, permite agregar, editar y eliminar información relacionada a los mismos. Se utilizo Axios para la conexion con el Back End
 
 La aplicación se encuentra expuestar atravez de los servicios de Azure y se puede acceder atravez de la dirección ip: http://104.42.36.217:3000/ 
 
 
 # Back End
-La aplicación fue creada con NodeJS utilizando MongoDB para la pertinencia de los datos, se utilizo mongoose para la conexion
+La aplicación fue creada con NodeJS utilizando MongoDB para la pertinencia de los datos, se utilizo mongoose para la conexion y express
