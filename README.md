@@ -13,4 +13,4 @@ La aplicación se encuentra expuestar atravez de los servicios de Azure y se pue
 
 
 # Back End
-La aplicación fue creada con NodeJS utilizando MongoDB para la pertinencia de los datos
+La aplicación fue creada con NodeJS utilizando MongoDB para la pertinencia de los datos, se utilizo mongoose para la conexion
